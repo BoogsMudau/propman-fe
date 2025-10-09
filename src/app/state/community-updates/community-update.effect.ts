@@ -1,4 +1,3 @@
-// community-updates.effects.ts
 import { Injectable } from '@angular/core';
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';

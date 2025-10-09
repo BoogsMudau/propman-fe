@@ -1,0 +1,11 @@
+<div class="page">
+  <div class="log-btn" (click)="logMaintenance()">Log Repair</div>
+  <div class="history">
+    <div>History</div>
+    <div class="logs">
+      <div *ngFor="let log of maintenanceLogs$ | async">
+        <app-maintenance-log-card></app-maintenance-log-card>
+      </div>
+    </div>
+  </div>
+</div>

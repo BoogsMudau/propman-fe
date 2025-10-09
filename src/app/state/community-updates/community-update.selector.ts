@@ -1,4 +1,3 @@
-// community-updates.selectors.ts
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CommunityUpdatesState } from './community-update.reducer';
 

@@ -20,12 +20,6 @@ export class CommunityUpdatesService {
         date: '2023-08-02',
         image: 'https://picsum.photos/200/300',
       },
-      {
-        title: 'Update 3',
-        description: 'Description 3',
-        date: '2023-08-03',
-        image: 'https://picsum.photos/200/300',
-      },
     ];
     return of(mockUpdates).pipe(delay(1000));
   }
