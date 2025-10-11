@@ -30,4 +30,8 @@ export class MaintenanceLogsService {
     ];
     return of(mockMaintenanceLogs).pipe(delay(1000));
   }
+
+  createMaintenanceLog(maintenanceLog: MaintenanceLog) {
+    return of(maintenanceLog).pipe(delay(1000));
+  }
 }

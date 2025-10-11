@@ -1,19 +1,19 @@
 <div class="container">
   <div class="header">
     <div class="icon">
-      <p class="user-initials">V</p>
+      <p class="user-initials">{{ update.creator[0] }}</p>
     </div>
     <div class="meta-data">
-      <p class="name">Vhugala Mudau</p>
-      <p class="date">12-12-2024</p>
+      <p class="name">{{ update.creator }}</p>
+      <p class="date">{{ update.date }}</p>
     </div>
   </div>
   <div class="divider"></div>
   <div class="body">
-    <p class="title">Ceiling maintenance</p>
+    <p class="title">{{ update.title }}</p>
     <!-- image later -->
     <p class="description">
-      Ceilings will be replaced this week from wed-fri. expect some noise during the day
+      {{ update.description }}
     </p>
   </div>
   <div class="footer">

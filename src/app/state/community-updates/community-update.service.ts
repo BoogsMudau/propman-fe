@@ -13,14 +13,20 @@ export class CommunityUpdatesService {
         description: 'Description 1',
         date: '2023-08-01',
         image: 'https://picsum.photos/200/300',
+        creator: 'John Doe',
       },
       {
         title: 'Update 2',
         description: 'Description 2',
         date: '2023-08-02',
         image: 'https://picsum.photos/200/300',
+        creator: 'Jane Smith',
       },
     ];
     return of(mockUpdates).pipe(delay(1000));
+  }
+
+  createUpdate(update: CommunityUpdate) {
+    return of(update).pipe(delay(1000));
   }
 }

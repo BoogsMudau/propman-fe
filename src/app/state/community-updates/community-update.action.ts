@@ -12,3 +12,18 @@ export const loadCommunityUpdatesFailure = createAction(
   '[Community] Load Updates Failure',
   props<{ error: any }>()
 );
+
+export const createCommunityUpdate = createAction(
+  '[Community] Create Update',
+  props<{ update: CommunityUpdate }>()
+);
+
+export const createCommunityUpdateSuccess = createAction(
+  '[Community] Create Update Success',
+  props<{ update: CommunityUpdate }>()
+);
+
+export const createCommunityUpdateFailure = createAction(
+  '[Community] Create Update Failure',
+  props<{ error: any }>()
+);

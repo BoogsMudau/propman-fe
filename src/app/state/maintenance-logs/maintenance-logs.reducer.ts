@@ -30,5 +30,21 @@ export const maintenanceLogsReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+
+  on(MaintenanceActions.createMaintenanceLog, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(MaintenanceActions.createMaintenanceLogSuccess, (state, { maintenanceLog }) => ({
+    ...state,
+    loading: false,
+    maintenanceLogs: [...state.maintenanceLogs, maintenanceLog],
+  })),
+  on(MaintenanceActions.createMaintenanceLogFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );

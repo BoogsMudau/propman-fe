@@ -7,7 +7,7 @@
   </div>
   <div class="updates">
     <div *ngFor="let update of updates$ | async">
-      <app-update-card></app-update-card>
+      <app-update-card [update]="update"></app-update-card>
     </div>
   </div>
 </div>
