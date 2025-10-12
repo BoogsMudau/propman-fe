@@ -13,9 +13,9 @@
       <mat-label>Write a comment</mat-label>
       <input matInput [(ngModel)]="newComment" (keyup.enter)="addComment()" />
     </mat-form-field>
-    <!-- <button mat-icon-button color="primary" (click)="addComment()">
-      <ion-icon name="add"></ion-icon>
-    </button> -->
+    <button mat-icon-button color="primary" (click)="addComment()">
+      <ion-icon name="send-outline"></ion-icon>
+    </button>
   </div>
   <!-- <mat-dialog-actions>
     <button mat-button (click)="onCancel()">Cancel</button>

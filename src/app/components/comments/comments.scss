@@ -21,3 +21,15 @@
   overflow-y: auto;
   padding: 8px;
 }
+
+.comment-input-container ion-icon {
+  font-size: 22px;
+
+  margin-bottom: 10px;
+}
+.comment-input-container .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
