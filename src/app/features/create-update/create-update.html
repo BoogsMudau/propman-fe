@@ -29,6 +29,8 @@
       </mat-chip-listbox>
     </div>
 
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+
     <button mat-raised-button type="submit" [disabled]="form.invalid" class="submit-btn">
       Submit
     </button>

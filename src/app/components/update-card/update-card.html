@@ -11,12 +11,12 @@
   <div class="divider"></div>
   <div class="body">
     <p class="title">{{ update.title }}</p>
-    <!-- image later -->
+    <img *ngIf="update.image" class="image" src="{{ update.image }}" alt="External Image" />
     <p class="description">
       {{ update.description }}
     </p>
   </div>
   <div class="footer">
-    <button>Comment</button>
+    <ion-icon (click)="openComments(update)" name="chatbubble-outline"></ion-icon>
   </div>
 </div>

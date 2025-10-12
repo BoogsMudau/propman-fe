@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-maintenance-log-card',
   imports: [],
   templateUrl: './maintenance-log-card.html',
-  styleUrl: './maintenance-log-card.scss'
+  styleUrl: './maintenance-log-card.scss',
 })
-export class MaintenanceLogCard {
-
-}
+export class MaintenanceLogCard {}

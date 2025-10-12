@@ -8,10 +8,11 @@ import { Router } from '@angular/router';
 import { loadMaintenanceLogs } from '../../state/maintenance-logs/maintenance-logs.action';
 import { CommonModule } from '@angular/common';
 import { MaintenanceLogCard } from '../../components/maintenance-log-card/maintenance-log-card';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-maintenance',
-  imports: [CommonModule, MaintenanceLogCard],
+  imports: [CommonModule, MaintenanceLogCard, IonicModule],
   templateUrl: './maintenance.html',
   styleUrl: './maintenance.scss',
 })

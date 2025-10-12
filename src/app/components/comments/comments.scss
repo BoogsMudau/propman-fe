@@ -1,0 +1,23 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.comment-input-container {
+  display: flex;
+  padding: 8px;
+  border-top: 1px solid #ccc;
+  align-items: center;
+}
+
+.comment-input {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.comments-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}

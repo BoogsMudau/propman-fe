@@ -4,4 +4,5 @@ export interface CommunityUpdate {
   date: string;
   image: string;
   creator: string;
+  id?: string;
 }
