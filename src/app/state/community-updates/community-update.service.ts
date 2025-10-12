@@ -1,32 +1,32 @@
-// community-updates.service.ts
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CommunityUpdate } from './community-update.model';
+import { SupabaseService } from '../../services/supabase.service';
+import { PostgrestResponse } from '@supabase/supabase-js';
 
 @Injectable({ providedIn: 'root' })
 export class CommunityUpdatesService {
+  constructor(private supabase: SupabaseService) {}
   getUpdates() {
-    const mockUpdates: CommunityUpdate[] = [
-      {
-        title: 'Update 1',
-        description: 'Description 1',
-        date: '2023-08-01',
-        image: 'https://picsum.photos/200/300',
-        creator: 'John Doe',
-      },
-      {
-        title: 'Update 2',
-        description: 'Description 2',
-        date: '2023-08-02',
-        image: 'https://picsum.photos/200/300',
-        creator: 'Jane Smith',
-      },
-    ];
-    return of(mockUpdates).pipe(delay(1000));
+    return from(this.supabase.getAll('updates')).pipe(
+      map((response: PostgrestResponse<CommunityUpdate>) => {
+        if (response.error) {
+          throw response.error;
+        }
+        return response.data || [];
+      })
+    );
   }
 
   createUpdate(update: CommunityUpdate) {
-    return of(update).pipe(delay(1000));
+    return from(this.supabase.insert('updates', update)).pipe(
+      map((response: PostgrestResponse<CommunityUpdate>) => {
+        if (response.error) {
+          throw response.error;
+        }
+        return response.data?.[0] as CommunityUpdate;
+      })
+    );
   }
 }

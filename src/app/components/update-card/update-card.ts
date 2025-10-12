@@ -5,6 +5,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Comments } from '../comments/comments';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
+import { formatTimestamp } from '../../services/format-time.service';
 
 @Component({
   selector: 'app-update-card',
@@ -29,5 +30,9 @@ export class UpdateCard {
         comments: update.comments || [],
       },
     });
+  }
+
+  formatTimestamp(timestamp: string | Date) {
+    return formatTimestamp(timestamp);
   }
 }

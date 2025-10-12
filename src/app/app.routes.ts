@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Tabs } from './components/tabs/tabs';
+import { AuthGuard } from './services/auth-guard.service';
 
 export const routes: Routes = [
   {
@@ -12,6 +13,7 @@ export const routes: Routes = [
       },
       {
         path: 'maintenance',
+        canActivate: [AuthGuard],
         loadComponent: () =>
           import('./features/maintenance/maintenance').then((m) => m.Maintenance),
       },
@@ -21,11 +23,13 @@ export const routes: Routes = [
       },
       {
         path: 'create',
+        canActivate: [AuthGuard],
         loadComponent: () =>
           import('./features/create-update/create-update').then((m) => m.CreateUpdate),
       },
       {
         path: 'maintenance-log',
+        canActivate: [AuthGuard],
         loadComponent: () =>
           import('./features/maintenance-log/maintenance-log').then((m) => m.MaintenanceLog),
       },
@@ -39,6 +43,10 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./features/login/login').then((m) => m.Login),
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./features/register/register').then((m) => m.Register),
   },
   {
     path: '',

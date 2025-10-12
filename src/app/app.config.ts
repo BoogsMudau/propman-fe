@@ -16,6 +16,8 @@ import { CommunityUpdatesEffects } from './state/community-updates/community-upd
 import { IonicModule } from '@ionic/angular';
 import { MaintenanceLogsEffect } from './state/maintenance-logs/maintenance-logs.effect';
 import { maintenanceLogsReducer } from './state/maintenance-logs/maintenance-logs.reducer';
+import { userReducer } from './state/user/user.reducer';
+import { UserEffects } from './state/user/user.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,8 +27,9 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       communityUpdates: communityUpdatesReducer,
       maintenanceLogs: maintenanceLogsReducer,
+      user: userReducer,
     }),
-    provideEffects([CommunityUpdatesEffects, MaintenanceLogsEffect]),
+    provideEffects([CommunityUpdatesEffects, MaintenanceLogsEffect, UserEffects]),
     provideStoreDevtools({ maxAge: 25 }),
     importProvidersFrom([IonicModule.forRoot()]),
   ],

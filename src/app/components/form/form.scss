@@ -24,6 +24,10 @@
   gap: 1rem;
 }
 
+.full-width {
+  width: 100%;
+}
+
 button.submit-btn {
   width: 100%;
   border-radius: 8px;
@@ -50,4 +54,8 @@ button.submit-btn {
 
 .chip-label {
   margin: 0;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
 }

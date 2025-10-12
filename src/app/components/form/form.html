@@ -1,0 +1,35 @@
+<form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
+  <div *ngFor="let field of fields">
+    <mat-form-field *ngIf="field.type === 'text' || field.type === 'password'" appearance="outline">
+      <mat-label>{{ field.label }}</mat-label>
+      <input
+        matInput
+        [formControlName]="field.name"
+        [placeholder]="field.placeholder"
+        [type]="field.type"
+      />
+    </mat-form-field>
+
+    <mat-form-field *ngIf="field.type === 'textarea'" appearance="outline">
+      <mat-label>{{ field.label }}</mat-label>
+      <textarea
+        matInput
+        [formControlName]="field.name"
+        rows="3"
+        [placeholder]="field.placeholder"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-chip-listbox *ngIf="field.type === 'select'" [formControlName]="field.name">
+      <mat-chip-option *ngFor="let opt of field.options" [value]="opt.value">
+        {{ opt.label }}
+      </mat-chip-option>
+    </mat-chip-listbox>
+
+    <input *ngIf="field.type === 'file'" type="file" (change)="onFileChange($event)" />
+  </div>
+
+  <button mat-raised-button type="submit" [disabled]="form.invalid" class="submit-btn">
+    {{ submitLabel }}
+  </button>
+</form>

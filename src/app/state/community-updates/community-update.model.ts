@@ -1,8 +1,9 @@
 export interface CommunityUpdate {
   title: string;
   description: string;
-  date: string;
+  created_at: string;
   image: string;
-  creator: string;
+  creatorId: string;
   id?: string;
+  creatorName: string;
 }

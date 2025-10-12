@@ -1,11 +1,11 @@
 <div class="container">
   <div class="header">
     <div class="icon">
-      <p class="user-initials">{{ update.creator[0] }}</p>
+      <p class="user-initials">{{ update.creatorName[0] }}</p>
     </div>
     <div class="meta-data">
-      <p class="name">{{ update.creator }}</p>
-      <p class="date">{{ update.date }}</p>
+      <p class="name">{{ update.creatorName }}</p>
+      <p class="date">{{ formatTimestamp(update.created_at) }}</p>
     </div>
   </div>
   <div class="divider"></div>
