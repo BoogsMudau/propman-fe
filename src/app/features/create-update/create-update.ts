@@ -24,9 +24,10 @@ import { selectUser } from '../../state/user/user.selector';
   templateUrl: './create-update.html',
   styleUrl: './create-update.scss',
 })
-export class CreateUpdate {
+export class CreateUpdate implements OnInit {
   form: FormGroup;
   private store = inject(Store);
+  user$ = this.store.select(selectUser);
   tags = [
     { label: 'Event', value: 'event' },
     { label: 'Just for Fun', value: 'justForFun' },
@@ -61,10 +62,12 @@ export class CreateUpdate {
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
       category: ['', Validators.required],
+      creatorId: [''],
+      creatorName: [''],
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.form.valid) {
       // if (document.activeElement instanceof HTMLElement) {
       //   document.activeElement.blur();
@@ -73,36 +76,52 @@ export class CreateUpdate {
       // for warning about button being still in focus after navigating
       const fileName = `${Date.now()}_${this.selectedFile?.name}`;
 
-      /**
-       * const { data, error } = await this.supabase.storage
-      .from('images') // replace with your bucket name
-      .upload(fileName, this.selectedFile);
+      const { data, error } = await this.supabase
+        .getClient()
+        .storage.from('images')
+        .upload(fileName, this.selectedFile);
 
-       */
+      if (error) {
+        console.error('Upload failed:', error.message);
+        return;
+      }
+
+      const { data: publicUrlData } = this.supabase
+        .getClient()
+        .storage.from('images')
+        .getPublicUrl(fileName);
+
+      const publicUrl = publicUrlData.publicUrl;
 
       this.store.dispatch(
         createCommunityUpdate({
           update: {
             ...this.form.value,
-            creatorId: 'c5e4f134-342d-43eb-b037-1ea024a63749',
-            creatorName: 'Vhugala Mudau',
+            image: publicUrl,
           },
         })
       );
     }
   }
 
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
+  ngOnInit(): void {
+    this.user$.subscribe((user) => {
+      if (user) {
+        this.form.patchValue({
+          creatorId: user.id,
+          creatorName: user.name,
+        });
+      }
+    });
+  }
 
-      // Preview image
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.previewUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+  onFileSelected(file: File) {
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.previewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 }

@@ -9,6 +9,7 @@ import { loadMaintenanceLogs } from '../../state/maintenance-logs/maintenance-lo
 import { CommonModule } from '@angular/common';
 import { MaintenanceLogCard } from '../../components/maintenance-log-card/maintenance-log-card';
 import { IonicModule } from '@ionic/angular';
+import { selectUser } from '../../state/user/user.selector';
 
 @Component({
   selector: 'app-maintenance',
@@ -21,11 +22,15 @@ export class Maintenance implements OnInit {
 
   maintenanceLogs$ = this.store.select(selectMaintenanceLogs);
   loading$ = this.store.select(selectLoading);
+  user$ = this.store.select(selectUser);
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadMaintenanceLogs());
+    this.user$.subscribe((user) => {
+      const id = user?.role === 'admin' ? undefined : user?.id;
+      this.store.dispatch(loadMaintenanceLogs({ id }));
+    });
   }
 
   logMaintenance() {

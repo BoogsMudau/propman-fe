@@ -1,11 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Inject, Input, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { IonicModule } from '@ionic/angular';
+import { SupabaseService } from '../../services/supabase.service';
+import { Comment } from '../../state/comments/comment.model';
+import { Store } from '@ngrx/store';
+import { User } from '../../state/user/user.model';
+import { selectUser } from '../../state/user/user.selector';
+import { formatTimestamp } from '../../services/format-time.service';
 @Component({
   selector: 'app-comments',
   imports: [
@@ -21,27 +27,55 @@ import { IonicModule } from '@ionic/angular';
   styleUrl: './comments.scss',
 })
 export class Comments implements OnInit {
-  @Input() postId!: string;
-  comments: any[] = [];
+  postId!: string;
+  store = inject(Store);
+  comments: Comment[] = [];
   newComment = '';
+  currUser: User | null = null;
+  user$ = this.store.select(selectUser);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<Comments>
+    private dialogRef: MatDialogRef<Comments>,
+    private supabase: SupabaseService,
+    private cdr: ChangeDetectorRef
   ) {
-    this.comments = data.comments || [];
+    this.postId = data.postId;
   }
 
-  addComment() {
+  async addComment() {
     if (this.newComment.trim()) {
-      this.comments.push({ user: 'You', text: this.newComment });
-      this.newComment = '';
+      this.comments.push({ creatorName: 'You', comment: this.newComment, postId: this.postId });
+      const { error } = await this.supabase.getClient().from('comments').insert({
+        comment: this.newComment,
+        creatorName: this.currUser?.name,
+        postId: this.postId,
+      });
     }
+  }
+
+  formatTimestamp(timestamp: string | Date) {
+    return formatTimestamp(timestamp);
   }
 
   onCancel() {
     this.dialogRef.close();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user$.subscribe((user) => {
+      console.log(user, 'ff');
+      this.currUser = user;
+    });
+
+    this.supabase
+      .getClient()
+      .from('comments')
+      .select()
+      .eq('postId', this.postId)
+      .then((res) => {
+        this.comments = res.data as Comment[];
+        this.cdr.detectChanges();
+      });
+  }
 }

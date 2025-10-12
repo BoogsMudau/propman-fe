@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { createMaintenanceLog } from '../../state/maintenance-logs/maintenance-logs.action';
+import { selectUser } from '../../state/user/user.selector';
+import { loadUser } from '../../state/user/user.action';
 
 @Component({
   selector: 'app-maintenance-log',
@@ -13,10 +15,11 @@ import { createMaintenanceLog } from '../../state/maintenance-logs/maintenance-l
   templateUrl: './maintenance-log.html',
   styleUrl: './maintenance-log.scss',
 })
-export class MaintenanceLog {
+export class MaintenanceLog implements OnInit {
   form: FormGroup;
-  private store = inject(Store);
 
+  private store = inject(Store);
+  user$ = this.store.select(selectUser);
   priorities = [
     { label: 'Low', value: 'Low' },
     { label: 'Medium', value: 'Medium' },
@@ -37,12 +40,26 @@ export class MaintenanceLog {
       description: ['', Validators.required],
       category: ['', Validators.required],
       priority: ['Low', Validators.required],
-      unitNumber: [, Validators.required],
+      unit: [, Validators.required],
+      status: ['pending'],
+      creatorId: [''],
+      creatorName: [''],
     });
   }
 
+  ngOnInit(): void {
+    this.user$.subscribe((user) => {
+      if (user) {
+        this.form.patchValue({
+          creatorId: user.id,
+          creatorName: user.name,
+        });
+      }
+    });
+  }
   onSubmit() {
     if (this.form.valid) {
+      console.log(this.form.value);
       this.store.dispatch(createMaintenanceLog({ maintenanceLog: this.form.value }));
     }
   }

@@ -1,12 +1,13 @@
 export interface MaintenanceLog {
   id?: number;
-  name: string;
+  creatorName: string;
   description: string;
-  date: string;
+  title: string;
   status: string;
   image?: string;
   updatedAt?: string;
-  message?: string;
+  created_at: string;
   category?: string;
-  unitNumber?: number;
+  unit?: number;
+  priority: string;
 }

@@ -30,5 +30,6 @@ export const userReducer = createReducer(
     ...state,
     loading: false,
     error,
-  }))
+  })),
+  on(UserActions.logOut, () => initialState)
 );

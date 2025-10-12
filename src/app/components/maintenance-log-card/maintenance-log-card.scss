@@ -64,3 +64,20 @@ p {
     }
   }
 }
+
+.status {
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.status-pending {
+  background-color: orange;
+}
+
+.status-in-progress {
+  background-color: blue;
+}
+
+.status-completed {
+  background-color: green;
+}

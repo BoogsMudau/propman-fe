@@ -18,6 +18,7 @@ import { MaintenanceLogsEffect } from './state/maintenance-logs/maintenance-logs
 import { maintenanceLogsReducer } from './state/maintenance-logs/maintenance-logs.reducer';
 import { userReducer } from './state/user/user.reducer';
 import { UserEffects } from './state/user/user.effect';
+import { loadingReducer } from './state/loader/loader.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
       communityUpdates: communityUpdatesReducer,
       maintenanceLogs: maintenanceLogsReducer,
       user: userReducer,
+      loader: loadingReducer,
     }),
     provideEffects([CommunityUpdatesEffects, MaintenanceLogsEffect, UserEffects]),
     provideStoreDevtools({ maxAge: 25 }),

@@ -33,3 +33,21 @@
   margin: 0 !important;
   padding: 0 !important;
 }
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  .username {
+    font-weight: 600;
+  }
+  .timestamp {
+    font-size: 0.75rem;
+    color: #888;
+  }
+}
+
+.comment-body {
+  font-size: 0.875rem;
+  line-height: 1.2;
+}

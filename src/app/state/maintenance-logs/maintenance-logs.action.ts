@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { MaintenanceLog } from './maintenance-logs.model';
 
-export const loadMaintenanceLogs = createAction('[Maintenance] Load Maintenance');
+export const loadMaintenanceLogs = createAction(
+  '[Maintenance] Load Maintenance',
+  props<{ id?: string }>()
+);
 
 export const loadMaintenanceLogsSuccess = createAction(
   '[Maintenance] Load Maintenance Success',

@@ -8,6 +8,7 @@
   height: 50px;
   border-radius: 50%;
   display: flex;
+  font-size: 22px;
   justify-content: center;
   align-items: center;
   background-color: #20a6fc;
@@ -15,7 +16,6 @@
   padding: 10px;
   position: fixed;
   bottom: 20px;
-  font-size: 20px;
   left: 90%;
   transform: translateX(-50%);
 }

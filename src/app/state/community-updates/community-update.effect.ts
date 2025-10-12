@@ -10,23 +10,28 @@ import {
   createCommunityUpdateFailure,
 } from './community-update.action';
 import { CommunityUpdatesService } from './community-update.service';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, finalize, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { hideLoader, showLoader } from '../loader/loader.action';
 
 @Injectable()
 export class CommunityUpdatesEffects {
   private actions$ = inject(Actions);
   private service = inject(CommunityUpdatesService);
+  private store = inject(Store);
 
   constructor(private router: Router) {}
 
   loadUpdates$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCommunityUpdates),
+      tap(() => this.store.dispatch(showLoader())),
       mergeMap(() =>
         this.service.getUpdates().pipe(
           map((updates) => loadCommunityUpdatesSuccess({ updates })),
-          catchError((error) => of(loadCommunityUpdatesFailure({ error })))
+          catchError((error) => of(loadCommunityUpdatesFailure({ error }))),
+          finalize(() => this.store.dispatch(hideLoader()))
         )
       )
     )

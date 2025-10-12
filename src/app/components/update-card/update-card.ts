@@ -19,7 +19,8 @@ export class UpdateCard {
 
   constructor(private dialog: MatDialog) {}
 
-  openComments(update: any) {
+  openComments(update: CommunityUpdate) {
+    console.log(update);
     this.dialog.open(Comments, {
       width: '100%', // full width
       maxWidth: '100%', // prevent default max-width
@@ -27,7 +28,7 @@ export class UpdateCard {
       position: { bottom: '0' }, // align to bottom
       panelClass: 'bottom-sheet-dialog',
       data: {
-        comments: update.comments || [],
+        postId: update.id,
       },
     });
   }

@@ -4,14 +4,25 @@
       <p class="user-initials">V</p>
     </div>
     <div class="meta-data">
-      <p class="name">Vhugala Mudau</p>
-      <p class="date">12-12-2024</p>
+      <p class="name">{{ maintenanceLog.creatorName }}</p>
+      <p class="date">{{ formatTimestamp(maintenanceLog.created_at) }}</p>
     </div>
   </div>
   <div class="divider"></div>
   <div class="body">
-    <p class="title">Light replacement</p>
-    <p class="description">Lights has become dim, needs replacement asap</p>
+    <p class="title">{{ maintenanceLog.title }}</p>
+    <p class="description">{{ maintenanceLog.description }}</p>
   </div>
-  <div class="footer">Status: Pending</div>
+  <div class="footer">
+    Status:
+    <span
+      class="status"
+      [ngClass]="{
+        'status-pending': maintenanceLog.status === 'pending',
+        'status-in-progress': maintenanceLog.status === 'progress',
+        'status-completed': maintenanceLog.status === 'completed'
+      }"
+      >{{ maintenanceLog.status }}</span
+    >
+  </div>
 </div>

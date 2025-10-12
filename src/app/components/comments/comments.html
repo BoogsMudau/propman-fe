@@ -2,10 +2,13 @@
   <h2 mat-dialog-title>Comments</h2>
   <mat-dialog-content class="comments-container">
     <div *ngFor="let comment of comments" class="comment">
-      <p>
-        <strong>{{ comment.user }}</strong
-        >: {{ comment.text }}
-      </p>
+      <div class="meta">
+        <span class="username">{{ comment.creatorName }}</span>
+        <span class="timestamp">{{ formatTimestamp(comment.created_at!) }}</span>
+      </div>
+      <div class="comment-body">
+        {{ comment.comment }}
+      </div>
     </div>
   </mat-dialog-content>
   <div class="comment-input-container">
@@ -17,8 +20,4 @@
       <ion-icon name="send-outline"></ion-icon>
     </button>
   </div>
-  <!-- <mat-dialog-actions>
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="addComment()">Post</button>
-  </mat-dialog-actions> -->
 </div>
