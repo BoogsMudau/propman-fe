@@ -19,6 +19,7 @@ import { maintenanceLogsReducer } from './state/maintenance-logs/maintenance-log
 import { userReducer } from './state/user/user.reducer';
 import { UserEffects } from './state/user/user.effect';
 import { loadingReducer } from './state/loader/loader.reducer';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,5 +35,9 @@ export const appConfig: ApplicationConfig = {
     provideEffects([CommunityUpdatesEffects, MaintenanceLogsEffect, UserEffects]),
     provideStoreDevtools({ maxAge: 25 }),
     importProvidersFrom([IonicModule.forRoot()]),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };
