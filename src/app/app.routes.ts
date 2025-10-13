@@ -28,6 +28,12 @@ export const routes: Routes = [
           import('./features/create-update/create-update').then((m) => m.CreateUpdate),
       },
       {
+        path: 'resolve',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import('./features/resolve-issues/resolve-issues').then((m) => m.ResolveIssues),
+      },
+      {
         path: 'maintenance-log',
         canActivate: [AuthGuard],
         loadComponent: () =>

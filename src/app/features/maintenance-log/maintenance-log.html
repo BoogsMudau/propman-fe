@@ -4,47 +4,12 @@
     <p class="sub-header">1 coldstream Morningside</p>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input matInput formControlName="title" placeholder="Short issue title" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        rows="3"
-        formControlName="description"
-        placeholder="Describe the issue"
-      ></textarea>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Unit Number</mat-label>
-      <input matInput formControlName="unit" placeholder="Unit Number" type="number" />
-    </mat-form-field>
-
-    <div class="chip-group">
-      <p class="chip-label">Category</p>
-      <mat-chip-listbox formControlName="category" aria-label="Select issue type">
-        <mat-chip-option *ngFor="let cat of categories" [value]="cat.value">{{
-          cat.label
-        }}</mat-chip-option>
-      </mat-chip-listbox>
-    </div>
-
-    <div class="chip-group">
-      <p class="chip-label">Priority</p>
-      <mat-chip-listbox formControlName="priority" aria-label="Select issue type">
-        <mat-chip-option *ngFor="let pri of priorities" [value]="pri.value" value="Low">{{
-          pri.label
-        }}</mat-chip-option>
-      </mat-chip-listbox>
-    </div>
-
-    <button mat-raised-button type="submit" [disabled]="form.invalid" class="submit-btn">
-      Submit
-    </button>
-  </form>
+  <app-form
+    [form]="form"
+    [fields]="fields"
+    submitLabel="Submit"
+    (submitForm)="onSubmit()"
+    (fileSelected)="onFileSelected($event)"
+  >
+  </app-form>
 </div>

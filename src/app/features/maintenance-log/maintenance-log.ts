@@ -8,10 +8,19 @@ import { Store } from '@ngrx/store';
 import { createMaintenanceLog } from '../../state/maintenance-logs/maintenance-logs.action';
 import { selectUser } from '../../state/user/user.selector';
 import { loadUser } from '../../state/user/user.action';
+import { Form, FormField } from '../../components/form/form';
+import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-maintenance-log',
-  imports: [MatChipsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    CommonModule,
+    Form,
+  ],
   templateUrl: './maintenance-log.html',
   styleUrl: './maintenance-log.scss',
 })
@@ -34,7 +43,24 @@ export class MaintenanceLog implements OnInit {
     { label: 'Gate', value: 'gate' },
   ];
 
-  constructor(private fb: FormBuilder) {
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
+
+  fields: FormField[] = [
+    { name: 'title', label: 'Title', type: 'text', placeholder: 'Short issue title' },
+    {
+      name: 'description',
+      label: 'Description',
+      type: 'textarea',
+      placeholder: 'Describe the issue',
+    },
+    { name: 'unit', label: 'Unit Number', type: 'text', placeholder: 'Unit Number' },
+    { name: 'category', label: 'Category', type: 'select', options: this.categories },
+    { name: 'priority', label: 'Priority', type: 'select', options: this.priorities },
+    { name: 'file', label: 'Attachment', type: 'file' },
+  ] as FormField[];
+
+  constructor(private fb: FormBuilder, private supabase: SupabaseService) {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
@@ -57,10 +83,37 @@ export class MaintenanceLog implements OnInit {
       }
     });
   }
-  onSubmit() {
+  async onSubmit() {
     if (this.form.valid) {
-      console.log(this.form.value);
+      const fileName = `${Date.now()}_${this.selectedFile?.name}`;
+      const { data, error } = await this.supabase
+        .getClient()
+        .storage.from('images')
+        .upload(fileName, this.selectedFile);
+
+      if (error) {
+        console.error('Upload failed:', error.message);
+        return;
+      }
+
+      const { data: publicUrlData } = this.supabase
+        .getClient()
+        .storage.from('images')
+        .getPublicUrl(fileName);
+
+      const publicUrl = publicUrlData.publicUrl;
+      this.form.value.image = publicUrl;
       this.store.dispatch(createMaintenanceLog({ maintenanceLog: this.form.value }));
     }
+  }
+
+  onFileSelected(file: File) {
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.previewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
   }
 }
