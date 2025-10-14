@@ -62,4 +62,8 @@ export class Register {
       }
     }
   }
+
+  goLogin() {
+    this.router.navigate(['login']);
+  }
 }

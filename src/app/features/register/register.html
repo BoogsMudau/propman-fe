@@ -1,10 +1,13 @@
 <div class="page">
-  <app-form
-    [form]="form"
-    [fields]="fields"
-    submitLabel="Register"
-    (submitForm)="onSubmit()"
-    [error]="error"
-  >
-  </app-form>
+  <div class="limiter">
+    <app-form
+      [form]="form"
+      [fields]="fields"
+      submitLabel="Register"
+      (submitForm)="onSubmit()"
+      [error]="error"
+    >
+    </app-form>
+  </div>
+  <p (click)="goLogin()">Already have an account? Login</p>
 </div>

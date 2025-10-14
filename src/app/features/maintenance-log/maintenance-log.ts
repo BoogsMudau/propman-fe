@@ -10,6 +10,7 @@ import { selectUser } from '../../state/user/user.selector';
 import { loadUser } from '../../state/user/user.action';
 import { Form, FormField } from '../../components/form/form';
 import { SupabaseService } from '../../services/supabase.service';
+import { hideLoader, showLoader } from '../../state/loader/loader.action';
 
 @Component({
   selector: 'app-maintenance-log',
@@ -84,7 +85,12 @@ export class MaintenanceLog implements OnInit {
     });
   }
   async onSubmit() {
-    if (this.form.valid) {
+    if (!this.form.valid) {
+      return;
+    }
+
+    this.store.dispatch(showLoader());
+    try {
       const fileName = `${Date.now()}_${this.selectedFile?.name}`;
       const { data, error } = await this.supabase
         .getClient()
@@ -104,6 +110,10 @@ export class MaintenanceLog implements OnInit {
       const publicUrl = publicUrlData.publicUrl;
       this.form.value.image = publicUrl;
       this.store.dispatch(createMaintenanceLog({ maintenanceLog: this.form.value }));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.store.dispatch(hideLoader());
     }
   }
 

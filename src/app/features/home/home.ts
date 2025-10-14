@@ -7,8 +7,10 @@ import {
 import { loadCommunityUpdates } from '../../state/community-updates/community-update.action';
 import { CommonModule } from '@angular/common';
 import { UpdateCard } from '../../components/update-card/update-card';
-import { IonicModule } from '@ionic/angular';
+import { AlertController, IonicModule } from '@ionic/angular';
 import { Router, RouterModule } from '@angular/router';
+import { selectUser } from '../../state/user/user.selector';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -18,17 +20,23 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class Home {
   private store = inject(Store);
+  private alertCtrl = inject(AlertController);
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private snackBar: MatSnackBar) {}
 
   updates$ = this.store.select(selectUpdates);
   loading$ = this.store.select(selectLoading);
+  user$ = this.store.select(selectUser);
 
   ngOnInit() {
     this.store.dispatch(loadCommunityUpdates());
   }
 
-  goToCreate() {
+  async goToCreate() {
+    this.user$.subscribe(async (user) => {
+      if (!user) {
+      }
+    });
     this.router.navigate(['tabs', 'create']);
   }
 }

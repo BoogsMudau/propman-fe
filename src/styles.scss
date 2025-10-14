@@ -59,3 +59,14 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ion-tab-bar {
+  padding-bottom: env(safe-area-inset-bottom);
+}

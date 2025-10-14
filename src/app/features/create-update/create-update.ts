@@ -10,6 +10,7 @@ import { Form, FormField } from '../../components/form/form';
 import { SupabaseService } from '../../services/supabase.service';
 import { loadUser } from '../../state/user/user.action';
 import { selectUser } from '../../state/user/user.selector';
+import { hideLoader, showLoader } from '../../state/loader/loader.action';
 
 @Component({
   selector: 'app-create-update',
@@ -68,14 +69,17 @@ export class CreateUpdate implements OnInit {
   }
 
   async onSubmit() {
-    if (this.form.valid) {
-      // if (document.activeElement instanceof HTMLElement) {
-      //   document.activeElement.blur();
-      // }
+    if (!this.form.valid) {
+      return;
+    }
+    // if (document.activeElement instanceof HTMLElement) {
+    //   document.activeElement.blur();
+    // }
 
-      // for warning about button being still in focus after navigating
+    // for warning about button being still in focus after navigating
+    this.store.dispatch(showLoader());
+    try {
       const fileName = `${Date.now()}_${this.selectedFile?.name}`;
-
       const { data, error } = await this.supabase
         .getClient()
         .storage.from('images')
@@ -101,6 +105,10 @@ export class CreateUpdate implements OnInit {
           },
         })
       );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.store.dispatch(hideLoader());
     }
   }
 

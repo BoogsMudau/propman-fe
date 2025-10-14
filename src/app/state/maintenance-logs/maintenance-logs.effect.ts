@@ -41,12 +41,10 @@ export class MaintenanceLogsEffect {
   createMaintenanceLog$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createMaintenanceLog),
-      tap(() => this.store.dispatch(showLoader())),
       mergeMap(({ maintenanceLog }) =>
         this.service.createMaintenanceLog(maintenanceLog).pipe(
           map((maintenanceLog) => createMaintenanceLogSuccess({ maintenanceLog })),
-          catchError((error) => of(createMaintenanceLogFailure({ error }))),
-          finalize(() => this.store.dispatch(hideLoader()))
+          catchError((error) => of(createMaintenanceLogFailure({ error })))
         )
       )
     )

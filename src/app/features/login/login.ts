@@ -52,4 +52,12 @@ export class Login {
       }
     }
   }
+
+  goRegister() {
+    this.router.navigate(['register']);
+  }
+
+  goHome() {
+    this.router.navigate(['tabs', 'home']);
+  }
 }
