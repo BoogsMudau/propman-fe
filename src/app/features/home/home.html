@@ -1,13 +1,16 @@
 <div class="page">
-  <div class="header">
-    <p>COMMUNITY UPDATES</p>
-    <div class="icon" (click)="goToCreate()">
-      <ion-icon name="add"></ion-icon>
+  <div class="limiter">
+    <div class="header">
+      <p>COMMUNITY UPDATES</p>
+      <div class="icon" (click)="goToCreate()">
+        <ion-icon name="add"></ion-icon>
+      </div>
     </div>
-  </div>
-  <div class="updates">
-    <div *ngFor="let update of updates$ | async">
-      <app-update-card [update]="update"></app-update-card>
+    <div class="updates">
+      <div *ngFor="let update of updates$ | async">
+        <app-update-card [update]="update"></app-update-card>
+        <app-update-card [update]="update"></app-update-card>
+      </div>
     </div>
   </div>
 </div>

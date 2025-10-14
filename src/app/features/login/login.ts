@@ -16,6 +16,7 @@ import { loadUser } from '../../state/user/user.action';
 export class Login {
   form: FormGroup;
   private store = inject(Store);
+  error = '';
 
   fields: FormField[] = [
     { name: 'email', label: 'Email', type: 'text', placeholder: 'Email' },
@@ -37,6 +38,14 @@ export class Login {
         password: this.form.value.password,
       });
       this.store.dispatch(hideLoader());
+
+      if (error) {
+        if (error?.code === 'invalid_credentials') {
+          this.error = 'Invalid credentials';
+        } else {
+          this.error = error?.message;
+        }
+      }
       if (!error) {
         this.store.dispatch(loadUser());
         this.router.navigate(['tabs', 'home']);

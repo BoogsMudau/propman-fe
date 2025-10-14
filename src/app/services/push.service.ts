@@ -26,13 +26,25 @@ export class PushService {
       console.log(JSON.stringify(sub.toJSON()), 'take');
 
       // Save subscription to Supabase
-      // const { error } = await this.supabase.getClient().from('pushTokens').upsert({
-      //   userId,
-      //   subscription: sub.toJSON(),
-      // });
 
-      // if (error) console.error('Error saving subscription', error);
-      // else console.log('Push subscription saved:', sub);
+      //check if token is there first
+      const { error: mineError, data } = await this.supabase
+        .getClient()
+        .from('pushTokens')
+        .select('*')
+        .eq('userId', userId);
+      console.log(data, 'token data');
+      if (data?.length) {
+        console.log('token already exists');
+        return;
+      }
+      const { error: supabaseError } = await this.supabase.getClient().from('pushTokens').upsert({
+        userId,
+        subscription: sub.toJSON(),
+      });
+
+      if (supabaseError) console.error('Error saving subscription', supabaseError);
+      else console.log('Push subscription saved:', sub);
     } catch (err) {
       console.error('Could not subscribe to notifications', err);
     }

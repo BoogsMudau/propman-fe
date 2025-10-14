@@ -1,4 +1,10 @@
 <div class="page">
-  <app-form [form]="form" [fields]="fields" submitLabel="Login" (submitForm)="onSubmit()">
+  <app-form
+    [form]="form"
+    [fields]="fields"
+    submitLabel="Login"
+    (submitForm)="onSubmit()"
+    [error]="error"
+  >
   </app-form>
 </div>

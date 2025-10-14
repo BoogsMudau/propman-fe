@@ -1,4 +1,10 @@
 <div class="page">
-  <app-form [form]="form" [fields]="fields" submitLabel="Register" (submitForm)="onSubmit()">
+  <app-form
+    [form]="form"
+    [fields]="fields"
+    submitLabel="Register"
+    (submitForm)="onSubmit()"
+    [error]="error"
+  >
   </app-form>
 </div>

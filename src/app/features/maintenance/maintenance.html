@@ -1,12 +1,14 @@
 <div class="page">
-  <div class="log-btn" (click)="logMaintenance()">
-    <ion-icon name="add"></ion-icon>
-  </div>
-  <div class="history">
-    <div class="history-title">My Log History</div>
-    <div class="logs">
-      <div *ngFor="let log of maintenanceLogs$ | async">
-        <app-maintenance-log-card [maintenanceLog]="log"></app-maintenance-log-card>
+  <div class="limiter">
+    <div class="log-btn" (click)="logMaintenance()">
+      <ion-icon name="add"></ion-icon>
+    </div>
+    <div class="history">
+      <div class="history-title">My Log History</div>
+      <div class="logs">
+        <div *ngFor="let log of maintenanceLogs$ | async">
+          <app-maintenance-log-card [maintenanceLog]="log"></app-maintenance-log-card>
+        </div>
       </div>
     </div>
   </div>

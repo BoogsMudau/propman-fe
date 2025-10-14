@@ -23,7 +23,7 @@ export class UpdateCard {
     console.log(update);
     this.dialog.open(Comments, {
       width: '100%', // full width
-      maxWidth: '100%', // prevent default max-width
+      maxWidth: '100%',
       height: '60vh', // 60% of viewport height
       position: { bottom: '0' }, // align to bottom
       panelClass: 'bottom-sheet-dialog',

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Tabs } from './components/tabs/tabs';
 import { AuthGuard } from './services/auth-guard.service';
+import { AdminGuard } from './services/admin-guard.service';
 
 export const routes: Routes = [
   {
@@ -29,7 +30,7 @@ export const routes: Routes = [
       },
       {
         path: 'resolve',
-        canActivate: [AuthGuard],
+        canActivate: [AdminGuard],
         loadComponent: () =>
           import('./features/resolve-issues/resolve-issues').then((m) => m.ResolveIssues),
       },

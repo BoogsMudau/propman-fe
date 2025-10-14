@@ -24,6 +24,7 @@ export class Form {
   @Input() submitLabel: string = 'Submit';
   @Output() submitForm = new EventEmitter<void>();
   @Output() fileSelected = new EventEmitter<File>();
+  @Input() error: string = '';
 
   onSubmit() {
     this.submitForm.emit();
