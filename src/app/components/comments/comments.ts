@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { User } from '../../state/user/user.model';
 import { selectUser } from '../../state/user/user.selector';
 import { formatTimestamp } from '../../services/format-time.service';
+import { hideLoader, showLoader } from '../../state/loader/loader.action';
 @Component({
   selector: 'app-comments',
   imports: [
@@ -45,12 +46,23 @@ export class Comments implements OnInit {
 
   async addComment() {
     if (this.newComment.trim()) {
-      this.comments.push({ creatorName: 'You', comment: this.newComment, postId: this.postId });
-      const { error } = await this.supabase.getClient().from('comments').insert({
+      const text = this.newComment;
+      //hopeful ui update
+      this.comments.push({
+        creatorName: 'You',
         comment: this.newComment,
-        creatorName: this.currUser?.name,
         postId: this.postId,
+        created_at: new Date().toISOString(),
       });
+      this.newComment = '';
+      const { error } = await this.supabase
+        .getClient()
+        .from('comments')
+        .insert({
+          comment: text,
+          creatorName: this.currUser?.name ?? 'Anonymous',
+          postId: this.postId,
+        });
     }
   }
 
@@ -63,19 +75,27 @@ export class Comments implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user$.subscribe((user) => {
-      console.log(user, 'ff');
-      this.currUser = user;
-    });
-
-    this.supabase
-      .getClient()
-      .from('comments')
-      .select()
-      .eq('postId', this.postId)
-      .then((res) => {
-        this.comments = res.data as Comment[];
-        this.cdr.detectChanges();
+    this.store.dispatch(showLoader());
+    console.log(this.postId);
+    try {
+      this.user$.subscribe((user) => {
+        console.log(user, 'ff');
+        this.currUser = user;
       });
+
+      this.supabase
+        .getClient()
+        .from('comments')
+        .select()
+        .eq('postId', this.postId)
+        .then((res) => {
+          this.comments = res.data as Comment[];
+          this.cdr.detectChanges();
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.store.dispatch(hideLoader());
+    }
   }
 }
