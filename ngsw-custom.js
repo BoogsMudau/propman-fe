@@ -7,7 +7,7 @@ self.addEventListener('push', (event) => {
   } catch (err) {
     console.error('Error parsing push data:', err);
   }
-
+  console.log(data);
   const title = data.title || data.notification?.title || 'Default title';
   const body = data.message || data.notification?.body || 'Default body';
 
