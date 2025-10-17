@@ -1,11 +1,13 @@
 <div class="page">
-  <div>
-    <a href="sms:+27829255724?body=Tapex"> Request exit code </a>
-  </div>
-  <div>
-    <a href="https://www.google.com/"> Complex rules </a>
+  <h2>Actions</h2>
+
+  <div class="action-group">
+    <a class="action-link" href="sms:+27829255724?body=Tapex">Request exit code</a>
+    <a class="action-link" href="https://www.google.com/">Complex rules</a>
   </div>
 
-  <button (click)="enablePush()">Enable notification</button>
-  <button (click)="logOut()">Logout</button>
+  <div class="action-group">
+    <button class="action-btn" (click)="enablePush()">Enable Notifications</button>
+    <button class="action-btn logout" (click)="logOut()">Logout</button>
+  </div>
 </div>

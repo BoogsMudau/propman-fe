@@ -15,7 +15,7 @@ export class AdminGuard implements CanActivate {
       filter((state) => !state?.loading),
       take(1),
       map((state) => {
-        if (state.user && state.user.role === 'admin') {
+        if (state.user && state.user.role !== 'admin') {
           return true;
         } else {
           this.router.navigate(['/']);

@@ -12,9 +12,11 @@ export class PushService {
   constructor(private swPush: SwPush, private supabase: SupabaseService) {}
 
   async subscribeToNotifications(userId: string) {
-    console.log(this.swPush);
+    console.log('waiting for worker');
+    await navigator.serviceWorker.ready;
+    console.log('worker done');
     if (!this.swPush.isEnabled) {
-      console.warn('Push notifications not enabled or supported.');
+      console.log('Push notifications not enabled or supported.');
       return;
     }
 
@@ -34,10 +36,14 @@ export class PushService {
         .select('*')
         .eq('userId', userId);
       console.log(data, 'token data');
-      if (data?.length) {
+
+      const alreadyExists = data?.some((s) => s.subscription?.endpoint === sub.endpoint);
+      if (alreadyExists) {
         console.log('token already exists');
         return;
       }
+
+      //save new token
       const { error: supabaseError } = await this.supabase.getClient().from('pushTokens').upsert({
         userId,
         subscription: sub.toJSON(),

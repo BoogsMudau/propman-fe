@@ -72,36 +72,36 @@ export class CreateUpdate implements OnInit {
     if (!this.form.valid) {
       return;
     }
-    // if (document.activeElement instanceof HTMLElement) {
-    //   document.activeElement.blur();
-    // }
 
-    // for warning about button being still in focus after navigating
     this.store.dispatch(showLoader());
+
     try {
-      const fileName = `${Date.now()}_${this.selectedFile?.name}`;
-      const { data, error } = await this.supabase
-        .getClient()
-        .storage.from('images')
-        .upload(fileName, this.selectedFile);
+      let publicUrl: string | undefined;
+      if (this.selectedFile) {
+        const fileName = `${Date.now()}_${this.selectedFile.name}`;
+        const { data, error } = await this.supabase
+          .getClient()
+          .storage.from('images')
+          .upload(fileName, this.selectedFile);
 
-      if (error) {
-        console.error('Upload failed:', error.message);
-        return;
+        if (error) {
+          console.error('Upload failed:', error.message);
+          return;
+        }
+
+        const { data: publicUrlData } = this.supabase
+          .getClient()
+          .storage.from('images')
+          .getPublicUrl(fileName);
+
+        publicUrl = publicUrlData.publicUrl;
       }
-
-      const { data: publicUrlData } = this.supabase
-        .getClient()
-        .storage.from('images')
-        .getPublicUrl(fileName);
-
-      const publicUrl = publicUrlData.publicUrl;
 
       this.store.dispatch(
         createCommunityUpdate({
           update: {
             ...this.form.value,
-            image: publicUrl,
+            ...(publicUrl ? { image: publicUrl } : {}),
           },
         })
       );

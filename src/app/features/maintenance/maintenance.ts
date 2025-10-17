@@ -10,19 +10,28 @@ import { CommonModule } from '@angular/common';
 import { MaintenanceLogCard } from '../../components/maintenance-log-card/maintenance-log-card';
 import { IonicModule } from '@ionic/angular';
 import { selectUser } from '../../state/user/user.selector';
+import { UpdateCard } from '../../components/update-card/update-card';
+import { combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'app-maintenance',
-  imports: [CommonModule, MaintenanceLogCard, IonicModule],
+  imports: [CommonModule, IonicModule, UpdateCard],
   templateUrl: './maintenance.html',
   styleUrl: './maintenance.scss',
 })
 export class Maintenance implements OnInit {
   private store = inject(Store);
 
-  maintenanceLogs$ = this.store.select(selectMaintenanceLogs);
   loading$ = this.store.select(selectLoading);
   user$ = this.store.select(selectUser);
+  maintenanceLogs$ = this.store.select(selectMaintenanceLogs);
+  myLogs$ = combineLatest([this.maintenanceLogs$, this.user$]).pipe(
+    map(([logs, user]) => logs.filter((log) => log.creatorId === user?.id))
+  );
+
+  communityLogs$ = combineLatest([this.maintenanceLogs$, this.user$]).pipe(
+    map(([logs, user]) => logs.filter((log) => log.creatorId !== user?.id))
+  );
 
   constructor(private router: Router) {}
 

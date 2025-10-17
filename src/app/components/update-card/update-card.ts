@@ -1,4 +1,4 @@
-import { Component, Input, NgZone } from '@angular/core';
+import { Component, inject, Input, NgZone } from '@angular/core';
 import { CommunityUpdate } from '../../state/community-updates/community-update.model';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -6,6 +6,9 @@ import { Comments } from '../comments/comments';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { formatTimestamp } from '../../services/format-time.service';
+import { Store } from '@ngrx/store';
+import { selectUser } from '../../state/user/user.selector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-card',
@@ -14,10 +17,15 @@ import { formatTimestamp } from '../../services/format-time.service';
   styleUrl: './update-card.scss',
 })
 export class UpdateCard {
-  @Input() update!: CommunityUpdate;
+  @Input() update: any;
+  @Input() type: 'update' | 'maintenance' = 'update';
+
+  private store = inject(Store);
+  user$ = this.store.select(selectUser);
+
   showComments = false;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private router: Router) {}
 
   openComments(update: CommunityUpdate) {
     console.log(update);
@@ -30,6 +38,16 @@ export class UpdateCard {
       data: {
         postId: update.id,
       },
+    });
+  }
+
+  handleClick() {
+    this.user$.subscribe((user) => {
+      if (user?.role !== 'admin') {
+        this.router.navigate(['tabs', 'resolve'], {
+          state: { maintenanceLog: this.update },
+        });
+      }
     });
   }
 

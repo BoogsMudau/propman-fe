@@ -10,4 +10,6 @@ export interface MaintenanceLog {
   category?: string;
   unit?: number;
   priority: string;
+  notes?: string;
+  creatorId?: string;
 }

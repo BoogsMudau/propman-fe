@@ -3,11 +3,12 @@
     <div class="log-btn" (click)="logMaintenance()">
       <ion-icon name="add"></ion-icon>
     </div>
+    <!-- My Logs -->
     <div class="history">
-      <div class="history-title">My Log History</div>
+      <div class="history-title">My Logs</div>
       <div class="logs">
-        <div *ngFor="let log of maintenanceLogs$ | async">
-          <app-maintenance-log-card [maintenanceLog]="log"></app-maintenance-log-card>
+        <div *ngFor="let log of myLogs$ | async">
+          <app-update-card type="maintenance" [update]="log"></app-update-card>
         </div>
       </div>
     </div>

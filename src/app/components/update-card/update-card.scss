@@ -1,9 +1,15 @@
 .container {
-  background-color: white;
-  margin-top: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 12px;
+  margin: 16px 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  padding: 10px;
+}
+
+.container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 
 p {
@@ -11,63 +17,91 @@ p {
 }
 
 .title {
-  color: #6c6c6c;
-  font-size: 14px;
+  font-size: 15px;
+  color: #111;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .description {
-  color: #a3a3a3;
-  font-size: 13px;
-  max-width: 350px;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-top: 8px;
 }
 
 .divider {
   height: 1px;
-  background-color: #e0e0e0;
-  margin: 12px 0;
+  background-color: #f0f0f0;
+  margin: 10px 0;
   border: none;
+}
+
+.body {
+  margin-top: 6px;
 }
 
 .header {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  gap: 12px;
+}
 
-  .icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #20a6fc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #20a6fc, #0076ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
 
-  .user-initials {
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-  }
+.user-initials {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
 
-  .meta-data {
-    margin-left: 25px;
-    font-size: 13px;
+.meta-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-    .name {
-      color: #6c6c6c;
-    }
+.meta-data .name {
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+}
 
-    .date {
-      color: #a3a3a3;
-      margin-top: 5px;
-    }
-  }
+.meta-data .date {
+  color: #888;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 .image {
   width: 100%;
-  height: auto;
-  max-height: 200px;
-  margin: 10px 0;
-  object-fit: contain;
+  border-radius: 10px;
+  margin-top: 10px;
+  object-fit: cover;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.comment-icon {
+  font-size: 22px;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.comment-icon:hover {
+  color: #20a6fc;
 }

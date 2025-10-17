@@ -1,5 +1,7 @@
 <div class="page">
-  <app-maintenance-log-card [maintenanceLog]="maintenanceLog"></app-maintenance-log-card>
-  <app-form [form]="form" [fields]="fields" submitLabel="Submit" (submitForm)="onSubmit()">
-  </app-form>
+  <div class="limiter limiter-maintenance">
+    <app-update-card [update]="maintenanceLog" type="maintenance"></app-update-card>
+    <app-form [form]="form" [fields]="fields" submitLabel="Update Issue" (submitForm)="onSubmit()">
+    </app-form>
+  </div>
 </div>
