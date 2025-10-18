@@ -21,20 +21,33 @@ export class App implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(loadUser());
-    this.enableNotifications();
+    this.enablePush();
   }
 
-  async enableNotifications() {
-    Notification.requestPermission().then((permission) => {
-      console.log(permission);
-      if (permission === 'granted') {
-        console.log('Notification permission granted.');
-        this.user$.subscribe((user) => {
-          if (user) {
-            console.log(user);
-            this.push.subscribeToNotifications(user.id);
-          }
-        });
+  async enablePush() {
+    const storedPermission = localStorage.getItem('permissionState');
+    // First check actual browser permission
+    if (Notification.permission === 'granted' || storedPermission === 'granted') {
+      console.log('Notification already permission granted.');
+      this.subscribeUser();
+      return;
+    }
+
+    // Only request permission if not already granted
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      localStorage.setItem('permissionState', 'granted');
+      this.subscribeUser();
+    } else {
+      localStorage.setItem('permissionState', permission);
+    }
+  }
+
+  private subscribeUser() {
+    this.user$.subscribe((user) => {
+      if (user) {
+        console.log(user);
+        this.push.subscribeToNotifications(user.id);
       }
     });
   }

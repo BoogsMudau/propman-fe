@@ -28,15 +28,27 @@ export class Info {
   }
 
   async enablePush() {
+    const storedPermission = localStorage.getItem('permissionState');
+    // First check actual browser permission
+    if (Notification.permission === 'granted' || storedPermission === 'granted') {
+      console.log('Notification already permission granted.');
+      this.subscribeUser();
+      return;
+    }
+
     Notification.requestPermission().then((permission) => {
+      localStorage.setItem('permissionState', permission); // track user choice
       if (permission === 'granted') {
-        console.log('Notification permission granted.');
-        this.user$.subscribe((user) => {
-          if (user) {
-            console.log(user);
-            this.push.subscribeToNotifications(user.id);
-          }
-        });
+        this.subscribeUser();
+      }
+    });
+  }
+
+  private subscribeUser() {
+    this.user$.subscribe((user) => {
+      if (user) {
+        console.log(user);
+        this.push.subscribeToNotifications(user.id);
       }
     });
   }

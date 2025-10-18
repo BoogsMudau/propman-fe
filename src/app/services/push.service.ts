@@ -21,10 +21,14 @@ export class PushService {
     }
 
     try {
-      const sub = await this.swPush.requestSubscription({
-        serverPublicKey: this.VAPID_PUBLIC_KEY,
-      });
+      const sub = (await Promise.race([
+        this.swPush.requestSubscription({ serverPublicKey: this.VAPID_PUBLIC_KEY }),
+        new Promise<never>((_, reject) => {
+          setTimeout(() => reject(new Error('Subscription timeout')), 30000);
+        }),
+      ])) as PushSubscription;
 
+      sessionStorage.removeItem('subReloaded');
       console.log(JSON.stringify(sub.toJSON()), 'take');
 
       // Save subscription to Supabase
