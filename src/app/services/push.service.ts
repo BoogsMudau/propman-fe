@@ -12,13 +12,15 @@ export class PushService {
   constructor(private swPush: SwPush, private supabase: SupabaseService) {}
 
   async subscribeToNotifications(userId: string) {
-    console.log('waiting for worker');
     await navigator.serviceWorker.ready;
-    console.log('worker done');
     if (!this.swPush.isEnabled) {
       console.log('Push notifications not enabled or supported.');
       return;
     }
+
+    await new Promise((res) => setTimeout(res, 500));
+
+    console.log('subscribeToNotifications');
 
     try {
       const sub = (await Promise.race([

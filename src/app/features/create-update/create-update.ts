@@ -35,7 +35,8 @@ export class CreateUpdate implements OnInit {
     { label: 'Neighbour', value: 'neighbour' },
     { label: 'Venting', value: 'venting' },
     { label: 'Gate', value: 'gate' },
-    { label: 'Question', value: 'Question' },
+    { label: 'Question', value: 'question' },
+    { label: 'Other', value: 'other' },
   ];
 
   fields: FormField[] = [
@@ -62,7 +63,7 @@ export class CreateUpdate implements OnInit {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
-      category: ['', Validators.required],
+      category: ['other'],
       creatorId: [''],
       creatorName: [''],
     });
@@ -95,6 +96,10 @@ export class CreateUpdate implements OnInit {
           .getPublicUrl(fileName);
 
         publicUrl = publicUrlData.publicUrl;
+      }
+
+      if (!this.form.value.category) {
+        this.form.value.category = 'other';
       }
 
       this.store.dispatch(

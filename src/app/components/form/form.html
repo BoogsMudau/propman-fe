@@ -29,7 +29,7 @@
     <input *ngIf="field.type === 'file'" type="file" (change)="onFileChange($event)" />
   </div>
   <p *ngIf="error" class="form-error">{{ error }}</p>
-  <button mat-raised-button type="submit" [disabled]="form.invalid" class="submit-btn">
+  <button mat-raised-button type="submit" class="submit-btn">
     {{ submitLabel }}
   </button>
 </form>

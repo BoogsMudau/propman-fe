@@ -1,13 +1,31 @@
 <div class="page">
-  <h2>Actions</h2>
+  <div *ngIf="currentUser" class="profile">
+    <div class="icon">
+      <p class="user-initials">{{ currentUser.name[0] }}</p>
+    </div>
+    <div class="email">{{ currentUser.email }}</div>
+    <div class="name">{{ currentUser.name }}</div>
+  </div>
 
-  <div class="action-group">
-    <a class="action-link" href="sms:+27829255724?body=Tapex">Request exit code</a>
-    <a class="action-link" href="https://www.google.com/">Complex rules</a>
+  <div class="actions">
+    <div class="item">
+      <a class="action-link" href="sms:+27829255724?body=Tapex">
+        <i class="fa fa-comment"></i> Request exit code
+        <i class="fa fa-chevron-right right-icon"></i>
+      </a>
+    </div>
+    <div class="item">
+      <a
+        class="action-link"
+        href="https://bxkpwofctizswjmxpmwh.supabase.co/storage/v1/object/public/images/2.NotesNewHomeowner.pdf"
+        ><i class="fa fa-file-alt"></i> Complex rules <i class="fa fa-chevron-right right-icon"></i
+      ></a>
+    </div>
   </div>
 
   <div class="action-group">
     <button class="action-btn" (click)="enablePush()">Enable Notifications</button>
-    <button class="action-btn logout" (click)="logOut()">Logout</button>
+    <button *ngIf="currentUser" class="action-btn logout" (click)="logOut()">Logout</button>
+    <button *ngIf="!currentUser" class="action-btn" (click)="logOut()">Login</button>
   </div>
 </div>

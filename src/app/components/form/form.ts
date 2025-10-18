@@ -27,10 +27,25 @@ export class Form {
   @Input() error: string = '';
 
   onSubmit() {
+    if (this.form.invalid) {
+      // Mark all controls as touched to trigger validation styles
+      this.markAllAsTouched(this.form);
+      return;
+    }
     this.submitForm.emit();
   }
   onFileChange(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
+    console.log(file);
     if (file) this.fileSelected.emit(file);
+  }
+
+  private markAllAsTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+      if ((control as any).controls) {
+        this.markAllAsTouched(control as FormGroup);
+      }
+    });
   }
 }

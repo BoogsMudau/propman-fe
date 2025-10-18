@@ -9,10 +9,12 @@ import { formatTimestamp } from '../../services/format-time.service';
 import { Store } from '@ngrx/store';
 import { selectUser } from '../../state/user/user.selector';
 import { Router } from '@angular/router';
+import { Tag } from '../tag/tag';
+import { MaintenanceCardService } from '../../services/maitenance-card.service';
 
 @Component({
   selector: 'app-update-card',
-  imports: [CommonModule, IonicModule, MatDialogModule],
+  imports: [CommonModule, IonicModule, MatDialogModule, Tag],
   templateUrl: './update-card.html',
   styleUrl: './update-card.scss',
 })
@@ -25,7 +27,11 @@ export class UpdateCard {
 
   showComments = false;
 
-  constructor(private dialog: MatDialog, private router: Router) {}
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    private cardService: MaintenanceCardService
+  ) {}
 
   openComments(update: CommunityUpdate) {
     console.log(update);

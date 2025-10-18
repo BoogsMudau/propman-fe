@@ -87,6 +87,7 @@ p {
   border-radius: 10px;
   margin-top: 10px;
   object-fit: cover;
+  max-height: 300px;
 }
 
 .footer {
@@ -104,4 +105,12 @@ p {
 
 .comment-icon:hover {
   color: #20a6fc;
+}
+
+.priority-tag {
+  margin-left: 10px;
+}
+
+.status-pending {
+  background-color: #1e88e5;
 }

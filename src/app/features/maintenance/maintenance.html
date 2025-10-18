@@ -1,8 +1,5 @@
 <div class="page">
   <div class="limiter">
-    <div class="log-btn" (click)="logMaintenance()">
-      <ion-icon name="add"></ion-icon>
-    </div>
     <!-- My Logs -->
     <div class="history">
       <div class="history-title">My Logs</div>
@@ -11,6 +8,9 @@
           <app-update-card type="maintenance" [update]="log"></app-update-card>
         </div>
       </div>
+    </div>
+    <div class="log-btn" (click)="logMaintenance()">
+      <ion-icon name="add"></ion-icon>
     </div>
   </div>
 </div>

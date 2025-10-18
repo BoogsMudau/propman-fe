@@ -42,6 +42,7 @@ export class MaintenanceLog implements OnInit {
     { label: 'Lights', value: 'lights' },
     { label: 'Garden', value: 'garden' },
     { label: 'Gate', value: 'gate' },
+    { label: 'Other', value: 'other' },
   ];
 
   selectedFile: File | null = null;
@@ -65,7 +66,7 @@ export class MaintenanceLog implements OnInit {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
-      category: ['', Validators.required],
+      category: ['other', Validators.required],
       priority: ['Low', Validators.required],
       unit: [, Validators.required],
       status: ['pending'],
