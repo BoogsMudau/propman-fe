@@ -45,6 +45,14 @@ export class ResolveIssues implements OnInit {
     this.maintenanceLog = history.state.maintenanceLog;
   }
 
+  ionViewWillEnter() {
+    this.maintenanceLog = history.state.maintenanceLog;
+    this.form.patchValue({
+      status: this.maintenanceLog.status,
+      notes: this.maintenanceLog.notes,
+    });
+  }
+
   async onSubmit() {
     try {
       this.store.dispatch(showLoader());
