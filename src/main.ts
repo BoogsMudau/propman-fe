@@ -10,6 +10,7 @@ import {
   add,
   chatbubbleOutline,
   sendOutline,
+  share,
 } from 'ionicons/icons';
 
 addIcons({
@@ -20,6 +21,7 @@ addIcons({
   add,
   chatbubbleOutline,
   sendOutline,
+  share,
 });
 
 console.log('main');

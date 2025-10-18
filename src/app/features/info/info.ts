@@ -8,6 +8,8 @@ import { selectUser } from '../../state/user/user.selector';
 import { PushService } from '../../services/push.service';
 import { User } from '../../state/user/user.model';
 import { NotificationService } from '../../services/notify.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddHome } from '../../components/add-home/add-home';
 
 @Component({
   selector: 'app-info',
@@ -23,7 +25,8 @@ export class Info implements OnInit {
     private supabase: SupabaseService,
     private router: Router,
     private push: PushService,
-    private notify: NotificationService
+    private notify: NotificationService,
+    private dialog: MatDialog
   ) {}
   async logOut() {
     const { error } = await this.supabase.getClient().auth.signOut();
@@ -38,23 +41,36 @@ export class Info implements OnInit {
   }
 
   async enablePush() {
-    if (!this.currentUser) {
-      this.notify.notify('Please sign in to enable notifications.');
-      return;
-    }
-    const storedPermission = localStorage.getItem('permissionState');
-    // First check actual browser permission
-    if (Notification.permission === 'granted' || storedPermission === 'granted') {
-      this.subscribeUser();
-      return;
-    }
-
-    Notification.requestPermission().then((permission) => {
-      localStorage.setItem('permissionState', permission); // track user choice
-      if (permission === 'granted') {
-        window.location.reload();
+    try {
+      if (!this.currentUser) {
+        this.notify.notify('Please sign in to enable notifications.');
+        return;
       }
-    });
+      const storedPermission = localStorage.getItem('permissionState');
+      // First check actual browser permission
+      if (Notification.permission === 'granted' || storedPermission === 'granted') {
+        this.subscribeUser();
+        return;
+      }
+
+      Notification.requestPermission().then((permission) => {
+        localStorage.setItem('permissionState', permission); // track user choice
+        if (permission === 'granted') {
+          window.location.reload();
+        }
+      });
+    } catch (error: any) {
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      if (error.message === "Can't find variable: Notification" && isSafari) {
+        this.dialog.open(AddHome, {
+          width: '80%', // full width
+          maxWidth: '80%',
+          height: '60vh', // 60% of viewport height
+          position: { top: '', bottom: '', left: '', right: '' },
+          panelClass: 'add-home-dialog',
+        });
+      }
+    }
   }
 
   private subscribeUser() {
