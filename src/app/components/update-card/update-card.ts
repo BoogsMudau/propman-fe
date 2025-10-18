@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { selectUser } from '../../state/user/user.selector';
 import { Router } from '@angular/router';
 import { Tag } from '../tag/tag';
-import { MaintenanceCardService } from '../../services/maitenance-card.service';
 
 @Component({
   selector: 'app-update-card',
@@ -27,11 +26,7 @@ export class UpdateCard {
 
   showComments = false;
 
-  constructor(
-    private dialog: MatDialog,
-    private router: Router,
-    private cardService: MaintenanceCardService
-  ) {}
+  constructor(private dialog: MatDialog, private router: Router) {}
 
   openComments(update: CommunityUpdate) {
     console.log(update);
