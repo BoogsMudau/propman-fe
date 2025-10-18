@@ -1,4 +1,4 @@
-import { Component, inject, Input, NgZone } from '@angular/core';
+import { Component, EventEmitter, inject, Input, NgZone, Output } from '@angular/core';
 import { CommunityUpdate } from '../../state/community-updates/community-update.model';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -20,6 +20,7 @@ import { Tag } from '../tag/tag';
 export class UpdateCard {
   @Input() update: any;
   @Input() type: 'update' | 'maintenance' = 'update';
+  @Output() onCardClick: EventEmitter<any> = new EventEmitter();
 
   private store = inject(Store);
   user$ = this.store.select(selectUser);
@@ -43,13 +44,7 @@ export class UpdateCard {
   }
 
   handleClick() {
-    this.user$.subscribe((user) => {
-      if (user?.role !== 'admin') {
-        this.router.navigate(['tabs', 'resolve'], {
-          state: { maintenanceLog: this.update },
-        });
-      }
-    });
+    this.onCardClick.emit(this.update);
   }
 
   formatTimestamp(timestamp: string | Date) {

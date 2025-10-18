@@ -12,6 +12,7 @@ import { IonicModule } from '@ionic/angular';
 import { selectUser } from '../../state/user/user.selector';
 import { UpdateCard } from '../../components/update-card/update-card';
 import { combineLatest, map } from 'rxjs';
+import { MaintenanceLog } from '../maintenance-log/maintenance-log';
 
 @Component({
   selector: 'app-maintenance',
@@ -40,6 +41,10 @@ export class Maintenance implements OnInit {
       const id = user?.role === 'admin' ? undefined : user?.id;
       this.store.dispatch(loadMaintenanceLogs({ id }));
     });
+  }
+
+  handleCardClick(log: any) {
+    this.router.navigate(['tabs', 'resolve'], { state: { maintenanceLog: log } });
   }
 
   logMaintenance() {

@@ -5,7 +5,11 @@
       <div class="history-title">My Logs</div>
       <div class="logs">
         <div *ngFor="let log of myLogs$ | async">
-          <app-update-card type="maintenance" [update]="log"></app-update-card>
+          <app-update-card
+            type="maintenance"
+            [update]="log"
+            (onCardClick)="handleCardClick($event)"
+          ></app-update-card>
         </div>
       </div>
     </div>
