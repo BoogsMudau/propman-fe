@@ -8,6 +8,7 @@ self.addEventListener('push', (event) => {
     console.error('Error parsing push data:', err);
   }
 
+  console.log('jsoned data', data, JSON.stringify(data));
   const title = data.title || data.notification?.title || 'Default title';
   const body = data.message || data.notification?.body || 'Default body';
 
